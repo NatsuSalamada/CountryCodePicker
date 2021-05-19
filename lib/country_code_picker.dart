@@ -130,12 +130,12 @@ class CountryCodePicker extends StatefulWidget {
 
     if (countryFilter != null && countryFilter!.isNotEmpty) {
       final uppercaseCustomList =
-          countryFilter!.map((c) => c.toUpperCase()).toList();
+      countryFilter!.map((c) => c.toUpperCase()).toList();
       elements = elements
           .where((c) =>
-              uppercaseCustomList.contains(c.code) ||
-              uppercaseCustomList.contains(c.name) ||
-              uppercaseCustomList.contains(c.dialCode))
+      uppercaseCustomList.contains(c.code) ||
+          uppercaseCustomList.contains(c.name) ||
+          uppercaseCustomList.contains(c.dialCode))
           .toList();
     }
 
@@ -159,65 +159,91 @@ class CountryCodePickerState extends State<CountryCodePicker> {
         child: widget.builder!(selectedItem),
       );
     else {
-      _widget = TextButton(
-        onPressed: widget.enabled ? showCountryCodePickerDialog : null,
-        child: Padding(
-          padding: widget.padding,
-          child: Flex(
-            direction: Axis.horizontal,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              if (widget.showFlagMain != null
-                  ? widget.showFlagMain!
-                  : widget.showFlag)
-                Flexible(
-                  flex: widget.alignLeft ? 0 : 1,
-                  fit: widget.alignLeft ? FlexFit.tight : FlexFit.loose,
-                  child: Container(
-                    clipBehavior: widget.flagDecoration == null
-                        ? Clip.none
-                        : Clip.hardEdge,
-                    decoration: widget.flagDecoration,
-                    margin: widget.alignLeft
-                        ? const EdgeInsets.only(right: 16.0, left: 8.0)
-                        : const EdgeInsets.only(right: 16.0),
-                    child: Image.asset(
-                      selectedItem!.flagUri!,
-                      package: 'country_code_picker',
-                      width: widget.flagWidth,
-                    ),
-                  ),
-                ),
-              if (!widget.hideMainText)
-                Flexible(
-                  fit: widget.alignLeft ? FlexFit.tight : FlexFit.loose,
-                  child: Text(
-                    widget.showOnlyCountryWhenClosed
-                        ? selectedItem!.toCountryStringOnly()
-                        : selectedItem.toString(),
-                    style:
-                        widget.textStyle ?? Theme.of(context).textTheme.button,
-                    overflow: widget.textOverflow,
-                  ),
-                ),
-              if (widget.showDropDownButton)
-                Flexible(
-                  flex: widget.alignLeft ? 0 : 1,
-                  fit: widget.alignLeft ? FlexFit.tight : FlexFit.loose,
-                  child: Padding(
-                      padding: widget.alignLeft
-                          ? const EdgeInsets.only(right: 16.0, left: 8.0)
-                          : const EdgeInsets.only(right: 16.0),
-                      child: Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.grey,
-                        size: widget.flagWidth,
-                      )),
-                ),
-            ],
-          ),
+
+      _widget = GestureDetector(
+        onTap: showCountryCodePickerDialog,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(width: 10.0,),
+            Image.asset(
+              selectedItem!.flagUri!,
+              package: 'country_code_picker',
+              width: widget.flagWidth,
+            ),
+            SizedBox(width: 5.0,),
+            Text(
+              widget.showOnlyCountryWhenClosed
+                  ? selectedItem!.toCountryStringOnly()
+                  : selectedItem.toString(),
+              style:
+              widget.textStyle ?? Theme.of(context).textTheme.button,
+              overflow: widget.textOverflow,
+            ),
+          ],
         ),
       );
+
+//      _widget = TextButton(
+//        onPressed: widget.enabled ? showCountryCodePickerDialog : null,
+//        child: Padding(
+//          padding: widget.padding,
+//          child: Flex(
+//            direction: Axis.horizontal,
+//            mainAxisSize: MainAxisSize.min,
+//            children: <Widget>[
+//              if (widget.showFlagMain != null
+//                  ? widget.showFlagMain!
+//                  : widget.showFlag)
+//                Flexible(
+//                  flex: widget.alignLeft ? 0 : 1,
+//                  fit: widget.alignLeft ? FlexFit.tight : FlexFit.loose,
+//                  child: Container(
+//                    clipBehavior: widget.flagDecoration == null
+//                        ? Clip.none
+//                        : Clip.hardEdge,
+//                    decoration: widget.flagDecoration,
+//                    margin: widget.alignLeft
+//                        ? const EdgeInsets.only(right: 16.0, left: 8.0)
+//                        : const EdgeInsets.only(right: 16.0),
+//                    child: Image.asset(
+//                      selectedItem!.flagUri!,
+//                      package: 'country_code_picker',
+//                      width: widget.flagWidth,
+//                    ),
+//                  ),
+//                ),
+//              if (!widget.hideMainText)
+//                Flexible(
+//                  fit: widget.alignLeft ? FlexFit.tight : FlexFit.loose,
+//                  child: Text(
+//                    widget.showOnlyCountryWhenClosed
+//                        ? selectedItem!.toCountryStringOnly()
+//                        : selectedItem.toString(),
+//                    style:
+//                        widget.textStyle ?? Theme.of(context).textTheme.button,
+//                    overflow: widget.textOverflow,
+//                  ),
+//                ),
+//              if (widget.showDropDownButton)
+//                Flexible(
+//                  flex: widget.alignLeft ? 0 : 1,
+//                  fit: widget.alignLeft ? FlexFit.tight : FlexFit.loose,
+//                  child: Padding(
+//                      padding: widget.alignLeft
+//                          ? const EdgeInsets.only(right: 16.0, left: 8.0)
+//                          : const EdgeInsets.only(right: 16.0),
+//                      child: Icon(
+//                        Icons.arrow_drop_down,
+//                        color: Colors.grey,
+//                        size: widget.flagWidth,
+//                      )),
+//                ),
+//            ],
+//          ),
+//        ),
+//      );
     }
     return _widget;
   }
@@ -237,9 +263,9 @@ class CountryCodePickerState extends State<CountryCodePicker> {
     if (oldWidget.initialSelection != widget.initialSelection) {
       if (widget.initialSelection != null) {
         selectedItem = elements.firstWhere(
-            (e) =>
-                (e.code!.toUpperCase() ==
-                    widget.initialSelection!.toUpperCase()) ||
+                (e) =>
+            (e.code!.toUpperCase() ==
+                widget.initialSelection!.toUpperCase()) ||
                 (e.dialCode == widget.initialSelection) ||
                 (e.name!.toUpperCase() ==
                     widget.initialSelection!.toUpperCase()),
@@ -257,9 +283,9 @@ class CountryCodePickerState extends State<CountryCodePicker> {
 
     if (widget.initialSelection != null) {
       selectedItem = elements.firstWhere(
-          (e) =>
-              (e.code!.toUpperCase() ==
-                  widget.initialSelection!.toUpperCase()) ||
+              (e) =>
+          (e.code!.toUpperCase() ==
+              widget.initialSelection!.toUpperCase()) ||
               (e.dialCode == widget.initialSelection) ||
               (e.name!.toUpperCase() == widget.initialSelection!.toUpperCase()),
           orElse: () => elements[0]);
@@ -269,11 +295,11 @@ class CountryCodePickerState extends State<CountryCodePicker> {
 
     favoriteElements = elements
         .where((e) =>
-            widget.favorite.firstWhereOrNull((f) =>
-                e.code!.toUpperCase() == f.toUpperCase() ||
-                e.dialCode == f ||
-                e.name!.toUpperCase() == f.toUpperCase()) !=
-            null)
+    widget.favorite.firstWhereOrNull((f) =>
+    e.code!.toUpperCase() == f.toUpperCase() ||
+        e.dialCode == f ||
+        e.name!.toUpperCase() == f.toUpperCase()) !=
+        null)
         .toList();
   }
 

@@ -36,14 +36,14 @@ class CountryCode {
 
   factory CountryCode.fromCountryCode(String countryCode) {
     final Map<String, String>? jsonCode = codes.firstWhereOrNull(
-      (code) => code['code'] == countryCode,
+          (code) => code['code'] == countryCode,
     );
     return CountryCode.fromJson(jsonCode!);
   }
 
   factory CountryCode.fromDialCode(String dialCode) {
     final Map<String, String>? jsonCode = codes.firstWhereOrNull(
-      (code) => code['dial_code'] == dialCode,
+          (code) => code['dial_code'] == dialCode,
     );
     return CountryCode.fromJson(jsonCode!);
   }

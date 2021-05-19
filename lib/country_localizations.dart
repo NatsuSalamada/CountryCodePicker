@@ -16,7 +16,7 @@ class CountryLocalizations {
   }
 
   static const LocalizationsDelegate<CountryLocalizations> delegate =
-      _CountryLocalizationsDelegate();
+  _CountryLocalizationsDelegate();
 
   late Map<String, String> _localizedStrings;
 
